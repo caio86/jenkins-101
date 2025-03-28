@@ -8,7 +8,7 @@ pipeline {
   stages {
     stage('Build') {
       steps {
-        withChecks(name: 'Jenkins CI', status: 'IN_PROGRESS') {
+        withChecks(name: 'Jenkins CI') {
           echo "Building.."
           sh '''
             pip install -r ./myapp/requirements.txt
@@ -32,14 +32,6 @@ pipeline {
           echo "doing delivery stuff.."
           '''
       }
-    }
-  }
-  post {
-    success {
-      withChecks(name: 'Jenkins CI', status: 'COMPLETED', conclusion: 'SUCCESS')
-    }
-    failure {
-      withChecks(name: 'Jenkins CI', status: 'COMPLETED', conclusion: 'FAILURE')
     }
   }
 }
