@@ -8,11 +8,12 @@ pipeline {
   stages {
     stage('Build') {
       steps {
-        publishChecks name: 'Status Reporter', status: 'IN_PROGRESS', title: 'Status Reporter'
-        echo "Building.."
-        sh '''
-          pip install -r ./myapp/requirements.txt
-          '''
+        withChecks(name: 'Jenkins CI', status: 'IN_PROGRESS') {
+          echo "Building.."
+          sh '''
+            pip install -r ./myapp/requirements.txt
+            '''
+        }
       }
     }
     stage('Test') {
@@ -35,10 +36,10 @@ pipeline {
   }
   post {
     success {
-      publishChecks(name: "Build Succeeded")
+      withChecks(name: 'Jenkins CI', status: 'COMPLETED', conclusion: 'SUCCESS')
     }
     failure {
-      publishChecks(name: "Build Failed", conclusion: "FAILURE")
+      withChecks(name: 'Jenkins CI', status: 'COMPLETED', conclusion: 'FAILURE')
     }
   }
 }
