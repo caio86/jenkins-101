@@ -32,4 +32,12 @@ pipeline {
       }
     }
   }
+  post {
+    success {
+      setBuildStatus("Build Succeeded", "SUCCESS")
+    }
+    failure {
+      setBuildStatus("Build Failed", "FAILURE")
+    }
+  }
 }
