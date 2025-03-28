@@ -8,7 +8,7 @@ pipeline {
   stages {
     stage('Build') {
       steps {
-        publishChecks(name: "Stage Reporter", status: "IN_PROGRESS", summary: "Building...")
+        publishChecks name: 'Status Reporter', status: 'IN_PROGRESS', title: 'Status Reporter'
         echo "Building.."
         sh '''
           pip install -r ./myapp/requirements.txt
@@ -35,10 +35,10 @@ pipeline {
   }
   post {
     success {
-      publishChecks(name: "Build Succeeded", status: "SUCCESS")
+      publishChecks(name: "Build Succeeded")
     }
     failure {
-      publishChecks(name: "Build Failed", status: "FAILURE")
+      publishChecks(name: "Build Failed", conclusion: "FAILURE")
     }
   }
 }
